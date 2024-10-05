@@ -1,12 +1,36 @@
 import urllib.request
 import json
+import csv
 
 baseurl = "https://2022electionresults.comelec.gov.ph/"
-url = "https://2022electionresults.comelec.gov.ph/data/regions/44/44021.json"
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+
+#   president candidates
+url = baseurl + "data/contests/5587.json"
 req = urllib.request.Request(url, None, headers)
 
 with urllib.request.urlopen(req) as file:
+    pres = json.load(file)
+
+#   senator candidates
+url = baseurl + "data/contests/5589.json"
+req = urllib.request.Request(url, None, headers)
+
+with urllib.request.urlopen(req) as file:
+    senator = json.load(file)
+
+#   partylist candidates
+url = baseurl + "data/contests/11172.json"
+req = urllib.request.Request(url, None, headers)
+
+with urllib.request.urlopen(req) as file:
+    ptlist = json.load(file)
+
+#   results
+url = baseurl + "data/regions/44/44021.json"
+req = urllib.request.Request(url, None, headers)
+
+with urllib.request.urlopen(req) as file, open('2022_pres.csv', 'a') as p_out, open('2022_sen.csv', 'a') as sen_out, open('2022_ptlist.csv', 'a') as hrep_out:
 #   regions json
     region = json.load(file)
 
